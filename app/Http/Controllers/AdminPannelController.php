@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminPannelController extends Controller
@@ -18,7 +19,6 @@ class AdminPannelController extends Controller
     
     public function create(){
         return view('admin.create', [
-            'blog'=>$blog ?? null,
             'categories'=>Category::all()
         ]);
     }
@@ -40,17 +40,18 @@ class AdminPannelController extends Controller
 
         $blog = new Blog;
         $blog->create($validated);
-        return redirect()->back()->with('success', 'Blog uploaded');
+        return redirect('admin/blogs')->with('success', 'Blog uploaded');
         
     }
 
     public function destroy(Blog $blog=null){
         $blog->delete();
+        Storage::delete($blog->photo);
         return back();
     }
 
     public function edit(Blog $blog,Request $request){
-        return view('admin.create', [
+        return view('admin.edit', [
             'blog'=>$blog,
             'categories'=>Category::all()
         ]);
@@ -67,6 +68,7 @@ class AdminPannelController extends Controller
             'photo.max' => 'The photo must be less than 10 MB.',
         ]);
         $validated['user_id'] = auth()->user()->id;
+        Storage::delete($blog->photo);
         $photo = $request->file('photo');
         $photo_dir = $photo->store('blog_photos');
         $validated['photo'] = $photo_dir;

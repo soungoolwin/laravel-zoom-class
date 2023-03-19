@@ -34,7 +34,7 @@
             <p class="my-3"><a href="{{ route('login') }}?redirect={{ urlencode(Request::url()) }}">Log in</a> to
                 participate in the discission.</p>
         @endif
-        <h5 class="my-3 text-secondary">Comments (3)</h5>
+        <h5 class="my-3 text-secondary">Comments ({{count($comments)}})</h5>
         @foreach ($comments as $comment)
             <x-single-comment :comment='$comment' />
         @endforeach

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CommentSubscribe as JobsCommentSubscribe;
+use App\Mail\CommentSubscribe;
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -24,10 +28,13 @@ class CommentController extends Controller
                 'body'=>$validated['body'],
                 'user_id'=>auth()->id()
             ]);
+            $users = $blog->subscribers;
+            JobsCommentSubscribe::dispatch($users);
             return back();
-        }
+        
         
         
         
     }
+}
 }

@@ -5,7 +5,7 @@
         <x-form.title_slug-input type='slug' :old="old('slug')" />
         <x-form.category-dropdown :categories='$categories' />
         <x-form.photo-upload />
-        <x-form.textarea :old="old('body')"/>
+        <x-form.textarea :old="old('body')" />
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </x-admin_layout>

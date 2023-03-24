@@ -11,7 +11,7 @@
                 />
                 <h3 class="my-3">{{$blog->title}}</h3>
                 <p class="lh-md">
-                  {{$blog->body}}
+                  {!!$blog->body!!}
                 </p>
               </div>
             </div>
